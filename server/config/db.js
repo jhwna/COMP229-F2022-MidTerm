@@ -6,6 +6,6 @@ WEB APP:    Favourite Book List
 */
 
 module.exports = {
-  // MongoDB deployment ->
+  // MongoDB Atlas deployment ->
   "URI": "mongodb+srv://jasonna:jAyD1kPnKl8jbAeQ@mongodbserver.5icqztg.mongodb.net/?retryWrites=true&w=majority"
 };

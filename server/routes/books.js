@@ -52,11 +52,11 @@ router.post('/add', (req, res, next) => {
      *****************/
 
     let createdBook = book({
-      'Title': req.body.Title,
-      'Description': req.body.Description,
-      'Price': req.body.Price,
-      'Author': req.body.Author,
-      'Genre': req.body.Genre
+      'Title': req.body.title,
+      'Description': req.body.description,
+      'Price': req.body.price,
+      'Author': req.body.author,
+      'Genre': req.body.genre
     });
 
     book.create(createdBook, (err, bookToAdd) => {
@@ -104,13 +104,14 @@ router.post('/:id', (req, res, next) => {
 
     let updatedBook = book({
       '_id': bookId,
-      'Title': req.body.Title,
-      'Description': req.body.Description,
-      'Price': req.body.Price,
-      'Author': req.body.Author,
-      'Genre': req.body.Genre
+      'Title': req.body.title,
+      'Description': req.body.description,
+      'Price': req.body.price,
+      'Author': req.body.author,
+      'Genre': req.body.genre
     });
 
+    // Model.update() is deprecated; updateOne() has been used instead
     book.updateOne({ _id: bookId }, updatedBook, (err) => {
       if (err) {
         console.log(err);
