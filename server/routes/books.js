@@ -1,3 +1,10 @@
+/*
+FILE:       server/config/db.js
+AUTHOR:     Jason (Han Wool) Na
+STUDENT ID: 301252192
+WEB APP:    Favourite Book List
+*/
+
 // modules required for routing
 let express = require('express');
 let router = express.Router();
@@ -30,6 +37,11 @@ router.get('/add', (req, res, next) => {
      * ADD CODE HERE *
      *****************/
 
+    res.render('books/details', {
+      title: 'Add Book',
+      books: ''
+    })
+
 });
 
 // POST process the Book Details page and create a new Book - CREATE
@@ -39,6 +51,23 @@ router.post('/add', (req, res, next) => {
      * ADD CODE HERE *
      *****************/
 
+    let createdBook = book({
+      'Title': req.body.Title,
+      'Description': req.body.Description,
+      'Price': req.body.Price,
+      'Author': req.body.Author,
+      'Genre': req.body.Genre
+    });
+
+    book.create(createdBook, (err, bookToAdd) => {
+      if (err) {
+        console.log(err);
+        res.end(err);
+      } else {
+        res.redirect('/books');
+      }
+    });
+
 });
 
 // GET the Book Details page in order to edit an existing Book
@@ -47,6 +76,21 @@ router.get('/:id', (req, res, next) => {
     /*****************
      * ADD CODE HERE *
      *****************/
+
+    let bookId = req.params.id;
+
+    book.findById(bookId, (err, bookToEdit) => {
+      if (err) {
+        console.log(err);
+        res.end(err);
+      } else {
+        res.render('books/details', {
+          title: 'Edit Book',
+          books: bookToEdit
+        });
+      }
+    });
+
 });
 
 // POST - process the information passed from the details form and update the document
@@ -56,6 +100,26 @@ router.post('/:id', (req, res, next) => {
      * ADD CODE HERE *
      *****************/
 
+    let bookId = req.params.id;
+
+    let updatedBook = book({
+      '_id': bookId,
+      'Title': req.body.Title,
+      'Description': req.body.Description,
+      'Price': req.body.Price,
+      'Author': req.body.Author,
+      'Genre': req.body.Genre
+    });
+
+    book.updateOne({ _id: bookId }, updatedBook, (err) => {
+      if (err) {
+        console.log(err);
+        res.end(err);
+      } else {
+        res.redirect('/books');
+      }
+    });
+
 });
 
 // GET - process the delete by user id
@@ -64,6 +128,18 @@ router.get('/delete/:id', (req, res, next) => {
     /*****************
      * ADD CODE HERE *
      *****************/
+
+    let bookId = req.params.id;
+
+    book.remove({ _id: bookId }, (err) => {
+      if (err) {
+        console.log(err);
+        res.end(err);
+      } else {
+        res.redirect('/books');
+      }
+    });
+
 });
 
 
